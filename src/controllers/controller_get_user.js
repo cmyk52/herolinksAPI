@@ -1,26 +1,23 @@
-import model_get_users from "../models/model_get_user.js"
+import services_get_users from "../services/services_get_user.js"
 
 
 
   const  controller_get_user = async (req,res) =>  { 
-    try{const user_name = req.params.user
-    
 
-    if(user_name === undefined || user_name.trim() === ""){
-      res.status(404).json({message:"No se ha ingresado usuario"})
+    try{
+    const user_name = req.params.user
+    const get_users = await services_get_users(user_name)
+
+
+    if(get_users.status !== 200){
+      res.status(get_users.status).json({message:`${get_users.message}`})
       return
     }
 
-    const response = await model_get_users(String(user_name))
-
-
-    if (response.status === 404) {
-      return res.status(404).json(response)
-    }
-
-    res.status(200).json(response)
+    res.status(200).json(get_users.data)
+      
+    return 
     
-    return
 }
    catch (error) {
     console.error("Error en controller_get_user:", error);

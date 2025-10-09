@@ -1,7 +1,7 @@
 import {pool} from "../config.js"
 import {to_hash, compare_password} from "../utils/crypto.js"
 
-export const is_valid_old_password = async (user_name, password, new_password)=>{    
+export const is_valid_old_password = async (user_name, password)=>{    
     try{
 
 
@@ -24,6 +24,8 @@ export const is_valid_old_password = async (user_name, password, new_password)=>
     }
 
     }
+
+
 
 export const model_account_new_password = async(user_name, new_password) =>{
     try{

@@ -31,14 +31,13 @@ const model_get_users = async (user_name)=>{
     if (!rows || rows.length === 0) {
       return { status: 404, message: "Usuario no encontrado" }
     }
-
-    return rows[0] 
+    
+    return { status: 200, data: rows[0]  }
 }
-catch(e){ console.log(e)
-    const status = 500
-    return status
-    
-    
+catch(e){ 
+  console.log(e)
+  return {"status": 500, "message":"Error interno del servidor"}
+      
 }
 
 }
