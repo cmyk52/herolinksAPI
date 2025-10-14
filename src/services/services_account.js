@@ -29,39 +29,42 @@ export const services_account_patch = async (user_name, password, new_password) 
             return {"status": 401, "message":"No fue posible ingresar nueva password"}
         }
 
+           if(insert_new_password  === undefined){
+            return {"status":500, "message":"Error interno del servidor"}
+        }
         
         return {"status": 200, "message":"Password actualizada con exito"}
 
     }
     catch(e){
         console.log(e)
-        res.status(500).json({message:"Error interno del servidor"})
-        return
+
+        return {"status":500, "message":"Error interno del servidor"}
     }
 }
 
-// TODO Modificar para procesar lo solicitado del controlador
-export const services_account_delete = async (req, res) =>{
-    try{
-       const {user_name, password} = req.body
 
+export const services_account_delete = async (user_name, password) =>{
+    try{
+       
         const is_delete = await model_account_delete(user_name, password)
 
         if(is_delete === 0){
-            return res.status(404).json({message:"Usuario no existe"})
+            return {"status":404,"message":"Usuario no existe"}
         }
         if(is_delete === -1){
-            return res.status(401).json({message:"Password incorrecta"})
+            return {"status":401, "message":"Password incorrecta"}
+        }
+        if(is_delete === undefined){
+            return {"status":500, "message":"Error interno del servidor"}
         }
 
-
-        res.status(200).json({message:"Usuario borrado exitosamente"})
-        return
+        return {"status":200,"message":"Usuario borrado exitosamente"}
     }
      catch(e){
         console.log(e)
-        res.status(500).json({message:"Error interno del servidor"})
-        return
+ 
+        return {"status":500, "message":"Error interno del servidor"}
     }
 }
 

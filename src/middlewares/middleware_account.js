@@ -1,4 +1,6 @@
 const middleware_account = (req,res, next) =>{ 
+
+    try{
     const method = req.method
     const {user_name, password, new_password} = req.body
 
@@ -19,6 +21,10 @@ const middleware_account = (req,res, next) =>{
 
     
     next()
+}
+catch(e){
+    return res.status(500).json({message:"Error interno del servidor"})
+}
 }
 
 export default middleware_account

@@ -8,7 +8,8 @@ export const controller_account_patch = async (req, res) =>{
     try{
         const {user_name, password, new_password} = req.body
         
-        const res_new_password = await services_account_patch(user_name,password,new_password)
+        const res_new_password = await services_account_patch(user_name, password, new_password)
+
         if(res_new_password.status !== 200){
             
             res.status(res_new_password.status).json({message:`${res_new_password.message}`})
@@ -26,19 +27,18 @@ export const controller_account_patch = async (req, res) =>{
     }
 }
 
-// TODO: llevar a servicios el delete
+
 
 export const controller_account_delete = async (req, res) =>{
+    // borrar cuenta
     try{
        const {user_name, password} = req.body
 
-        const is_delete = await model_account_delete(user_name, password)
+        const res_delete_services = await services_account_delete(user_name, password)
 
-        if(is_delete === 0){
-            return res.status(404).json({message:"Usuario no existe"})
-        }
-        if(is_delete === -1){
-            return res.status(401).json({message:"Password incorrecta"})
+        if(res_delete_services.status !== 200){
+            res.status(res_delete_services.status).json({message:res_delete_services.message})
+            return
         }
 
 
