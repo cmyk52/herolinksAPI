@@ -4,8 +4,8 @@ const middleware_get_users = (req,res, next) =>{
 
 
         
-        if (!user_name || typeof user_name !== "string" || user_name.trim() === "") {
-  return res.status(400).json({ message: "Parametro usuario no fue ingresado" })
+    if (!user_name || typeof user_name !== "string" || user_name.trim() === "") {
+    return res.status(400).json({ message: "Parametro usuario no fue ingresado" })
 }
 
 

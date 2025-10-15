@@ -1,0 +1,1 @@
+import model_profile from "../models/model_profile.js"

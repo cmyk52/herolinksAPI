@@ -1,9 +1,9 @@
 import {model_profile_delete_pic, model_profile_delete_link } from "../models/model_profile.js"
-import model_profile from "../models/model_profile.js"
+
 
 // INSERT ITEMS
 
-export const controller_profile = async(req, res) =>{
+export const controller_profile_patch = async(req, res) =>{
     // TYPES: //
     // Profile_pic (user_name, profile_pic)
     // Profile_color (user_name, profile_color)
