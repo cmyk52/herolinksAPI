@@ -3,7 +3,7 @@ import {pool} from "../config.js"
 
 // INSERT ITEMS
 
-const model_profile_pic = async() =>{
+export const model_profile_pic = async() =>{
 
     return
 }

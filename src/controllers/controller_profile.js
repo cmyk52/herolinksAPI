@@ -1,5 +1,8 @@
-import {model_profile_delete_pic, model_profile_delete_link } from "../models/model_profile.js"
+import {services_insert_profile_pic} from "../services/services_profile.js"
 
+export const controller_profile_get = async ()=>{
+    return
+}
 
 // INSERT ITEMS
 
@@ -13,9 +16,9 @@ try{
     const {type, user_name, profile_pic, profile_color, icon, title, url, link_color} = req.body
     
     switch(type){
-    case "new_link":    
-    case "profile_pic":
-    case "profile_color":
+    case "new_link": 
+    case "profile_pic": return profile_pic_function(user_name, profile_pic)
+    case "profile_color": 
         
     default: res.status(400).json({message:"Operacion invalida"}) 
     return
@@ -32,7 +35,21 @@ catch(e){
 
 }
 
+async function profile_pic_function(user_name, profile_pic) {
+    try{
+    const new_profile_pic = await services_insert_profile_pic(user_name, profile_pic)
+    if(new_profile_pic !== 200){
+        res.status(new_profile_pic.status).json({message:`${new_profile_pic.message}`})
+    }
+    return  res.status(200).json({message:"Se inserto imagen de perfil exitosamente"})
+    }
+    catch(e){
+        console.log(e)
+        return res.status(500).json({message:"Ha ocurrido un error en el servidor"})
+    }
 
+    
+}
 
 
 // DELETE ITEMS
@@ -78,4 +95,4 @@ catch(e){
     
 }
 
-export default controller_profile
+export default controller_profile_patch
