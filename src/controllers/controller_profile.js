@@ -1,6 +1,7 @@
 import {services_insert_profile_pic} from "../services/services_profile.js"
 
-export const controller_profile_get = async ()=>{
+export const controller_profile_get = async (req,res)=>{
+    res.status(200).json({message:"Logeado con exito"})
     return
 }
 
@@ -44,7 +45,7 @@ async function profile_pic_function(user_name, profile_pic) {
     return  res.status(200).json({message:"Se inserto imagen de perfil exitosamente"})
     }
     catch(e){
-        console.log(e)
+        
         return res.status(500).json({message:"Ha ocurrido un error en el servidor"})
     }
 

@@ -1,15 +1,22 @@
 export const middleware_profile_get = (req,res, next) =>{
     try{
-        let {user_name} = req.query
-        if(user_name) user_name=String(user_name).trim().toLowerCase()
+        let  {user_name} = req.user
+        user_name = String(user_name).trim().toLowerCase()
+        
+        
+
+
+       
         if(!user_name || user_name.length === 0){
             return res.status(400).json({message:"No se han ingresado un usuario o no se ha logeado"})
         }
-        req.query = {user_name}
+        req.query.user_name = user_name
         next()
+
+        
     }
     catch(e){
-        return res.status(500).json({message:"Error interno del servidor"})
+        return res.status(500).json({message:`Error interno del servidor ${e}`})
     }
 }
 
@@ -54,7 +61,7 @@ export const middleware_profile_patch = (req,res,next) =>{
         next()
     }
     catch(e){
-        console.log(e)
+        
         return res.status(500).json({message:"Error interno del servidor"})
     }
 
@@ -90,7 +97,7 @@ export const middleware_profile_delete = (req,res, next)=>{
 
     }
     catch(e){
-        console.log(e)
+        
         return res.status(500).json({message:"Error interno del servidor"})
     }
 
