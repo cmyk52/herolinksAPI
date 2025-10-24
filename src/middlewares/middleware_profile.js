@@ -1,6 +1,7 @@
 export const middleware_profile_get = (req,res, next) =>{
     try{
         let  {user_name} = req.user
+        console.log(user_name)
         user_name = String(user_name).trim().toLowerCase()
         
         
@@ -10,13 +11,15 @@ export const middleware_profile_get = (req,res, next) =>{
         if(!user_name || user_name.length === 0){
             return res.status(400).json({message:"No se han ingresado un usuario o no se ha logeado"})
         }
-        req.query.user_name = user_name
+        req.user.user_name = user_name;
+        
         next()
 
         
     }
     catch(e){
-        return res.status(500).json({message:`Error interno del servidor ${e}`})
+        console.error(e)
+        return res.status(500).json({message:`Error interno del servidor middleware`})
     }
 }
 

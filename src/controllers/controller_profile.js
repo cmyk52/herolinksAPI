@@ -1,8 +1,25 @@
-import {services_insert_profile_pic} from "../services/services_profile.js"
+import {services_insert_profile_pic, services_profile_get} from "../services/services_profile.js"
 
 export const controller_profile_get = async (req,res)=>{
-    res.status(200).json({message:"Logeado con exito"})
-    return
+    try{
+        
+        const {user_name} = req.user
+       
+        const profile_get_data = await services_profile_get(user_name)
+        console.log(profile_get_data.status + "controler")
+        if(profile_get_data.status != 200){
+        res.status(profile_get_data.status).json({message:`${profile_get_data.message}`})
+        return
+        }
+        return res.status(200).json({message:"Logeado con exito", "data": profile_get_data})
+        
+    }
+    catch(e){
+        console.error(e)
+        return res.status(500).json({message:"Error interno del servidor controller"})
+    
+    }
+    
 }
 
 // INSERT ITEMS
@@ -21,7 +38,7 @@ try{
     case "profile_pic": return profile_pic_function(user_name, profile_pic)
     case "profile_color": 
         
-    default: res.status(400).json({message:"Operacion invalida"}) 
+    default: res.status(400).json({"message":"Operacion invalida"}) 
     return
     }
 
@@ -30,7 +47,7 @@ try{
 }
 
 catch(e){
-    res.status(500).json({message:"Ha ocurrido un error en el servidor"})
+    res.status(500).json({"message":"Ha ocurrido un error en el servidor"})
     return
 }
 
