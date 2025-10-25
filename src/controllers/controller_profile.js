@@ -1,4 +1,4 @@
-import {services_insert_profile_pic, services_profile_get} from "../services/services_profile.js"
+import { services_profile_get, services_profile_new_link} from "../services/services_profile.js"
 
 export const controller_profile_get = async (req,res)=>{
     try{
@@ -49,6 +49,10 @@ catch(e){
 
 const insert_new_link = async (res, user_name, title, url) =>{
     try{
+        const services_insert_link = await services_profile_new_link(user_name, title, url)
+        if(services_insert_link.status != 200){
+            return res.status(services_insert_link.status).json({message:`${services_insert_link.message}`})
+        }
         res.status(200).json({message:"Link agregado correctamente"})
         return 
     }

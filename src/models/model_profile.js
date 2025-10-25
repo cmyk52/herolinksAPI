@@ -21,19 +21,22 @@ export const model_profile_get = async(user_name) =>{
 
 // INSERT ITEMS
 
-export const model_profile_pic = async() =>{
+export const model_profile_new_link = async(user_name, title, url) =>{
+    try{
+        const values = [title, url, user_name]
+        const query = 'INSERT INTO links (user_id, title, url) SELECT u.id, ?, ? FROM users u WHERE u.user_name = ?'
+        const [rows] = await pool.execute(query, values)
+        if(rows.affectedRows != 1){
+            return {"status":401, "message":"No fue posible insertar el nuevo link"}
+        }
+        return {"status":200, "message":"Link agregado con exito"}
+    }
+    catch(e){
+        console.error(e)
+        return {"status":500, "message":"Error interno del servidor"}
+    }
 
-    return
-}
 
-export const model_profile_color = async() =>{
-
-    return
-}
-
-export const model_profile_new_link = async() =>{
-
-    return
 }
 
 // DELETE ITEMS
@@ -52,4 +55,4 @@ export const model_profile_delete_pic = async() =>{
 
 
 
-export default model_profile_pic
+export default model_profile_get

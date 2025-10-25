@@ -1,4 +1,4 @@
-import {model_profile_delete_pic, model_profile_delete_link } from "../models/model_profile.js"
+import { model_profile_delete_link, model_profile_new_link } from "../models/model_profile.js"
 import {model_profile_get} from "../models/model_profile.js"
 
 // GET ITEMS PROFILE
@@ -19,19 +19,21 @@ export const services_profile_get = async (user_name) =>{
 
 // INSERT ITEMS PROFILE
 
-export const services_insert_profile_pic = async() =>{
 
-    return
-}
 
-export const services_profile_color = async() =>{
+export const services_profile_new_link = async(user_name, title, url) =>{
+    try{
+        const model_insert_link = await model_profile_new_link(user_name, title, url)
+        if(model_insert_link.status != 200){
+            return {"status":401, "message":`${model_insert_link.message}`}
+        }
+        return {"status":200, "message":`${model_insert_link.message}`}
+    }
+    catch(e){
+        console.error(e)
+        return {"status":500, "message":"Error interno del servidor"}
+    }
 
-    return
-}
-
-export const services_profile_new_link = async() =>{
-
-    return
 }
 
 // DELETE ITEMS PROFILE
