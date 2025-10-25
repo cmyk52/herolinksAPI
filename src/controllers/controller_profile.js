@@ -26,18 +26,14 @@ export const controller_profile_get = async (req,res)=>{
 
 export const controller_profile_patch = async(req, res) =>{
     // TYPES: //
-    // Profile_pic (user_name, profile_pic)
-    // Profile_color (user_name, profile_color)
-    // New_link (user_name, icon, title, url, link_color)
+    // New_link (user_name, title, url)
 
 try{    
-    const {type, user_name, profile_pic, profile_color, icon, title, url, link_color} = req.body
+    const {type, user_name,  title, url} = req.body
     
     switch(type){
-    case "new_link": 
-    case "profile_pic": return profile_pic_function(user_name, profile_pic)
-    case "profile_color": 
-        
+    case "new_link": return insert_new_link(res, user_name, title, url ) 
+       
     default: res.status(400).json({"message":"Operacion invalida"}) 
     return
     }
@@ -49,25 +45,19 @@ try{
 catch(e){
     res.status(500).json({"message":"Ha ocurrido un error en el servidor"})
     return
-}
+}}
 
-}
-
-async function profile_pic_function(user_name, profile_pic) {
+const insert_new_link = async (res, user_name, title, url) =>{
     try{
-    const new_profile_pic = await services_insert_profile_pic(user_name, profile_pic)
-    if(new_profile_pic !== 200){
-        res.status(new_profile_pic.status).json({message:`${new_profile_pic.message}`})
-    }
-    return  res.status(200).json({message:"Se inserto imagen de perfil exitosamente"})
+        res.status(200).json({message:"Link agregado correctamente"})
+        return 
     }
     catch(e){
-        
-        return res.status(500).json({message:"Ha ocurrido un error en el servidor"})
+        console.error(e)
+        return res.status(500).json({message:"Error interno en el servidor"})
     }
-
-    
 }
+
 
 
 // DELETE ITEMS
