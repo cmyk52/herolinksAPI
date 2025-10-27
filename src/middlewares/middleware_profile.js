@@ -62,32 +62,32 @@ export const middleware_profile_delete = (req,res, next)=>{
 
 
     try{
-        let {type, user_name, profile_pic, url} = req.body
+        let {type, id} = req.body
+        let {user_name} = req.user
 
         if (type)          type = String(type).trim().toLowerCase()
         if (user_name)     user_name = String(user_name).trim().toLowerCase()
-        if (url)           url = String(url).trim().toLowerCase()
-        if (profile_pic)   profile_pic = String(profile_pic).trim().toLowerCase()
+        if (id)           id = String(id).trim().toLowerCase()
+
  
-        const types_cases = ["delete_profile_pic", "delete_link"]
+        const types_cases = ["delete_link"]
 
         if(!type || !types_cases.includes(type) ){
             return res.status(400).json({message:"No se han ingresado el tipo de caso correcto en los parametros"})
         }   
 
-        if(type === "delete_profile_pic" && (!user_name || !profile_pic)){
+
+        if(type === "delete_link" && (!user_name || !id)){
             return res.status(400).json({message:"No se han ingresado todos los parametros"})
         }
-        if(type === "delete_link" && (!user_name || !url)){
-            return res.status(400).json({message:"No se han ingresado todos los parametros"})
-        }
-        req.body = {type, user_name, profile_pic, url}
+        req.body = {type, user_name, id}
+        
         next()
         
 
     }
     catch(e){
-        
+        console.error(e)
         return res.status(500).json({message:"Error interno del servidor"})
     }
 

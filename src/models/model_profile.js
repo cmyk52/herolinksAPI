@@ -26,7 +26,7 @@ export const model_profile_new_link = async(user_name, title, url) =>{
         const values = [title, url, user_name]
         const query = 'INSERT INTO links (user_id, title, url) SELECT u.id, ?, ? FROM users u WHERE u.user_name = ?'
         const [rows] = await pool.execute(query, values)
-        if(rows.affectedRows != 1){
+        if(rows.affectedRows !== 1){
             return {"status":401, "message":"No fue posible insertar el nuevo link"}
         }
         return {"status":200, "message":"Link agregado con exito"}
@@ -41,17 +41,23 @@ export const model_profile_new_link = async(user_name, title, url) =>{
 
 // DELETE ITEMS
 
-export const model_profile_delete_link = async() =>{
-
-    return
+export const model_profile_delete_link = async(user_name, id) =>{
+try{
+    const values = [id, user_name]
+    const query = 'DELETE l FROM links l JOIN users u ON l.user_id = u.id WHERE l.id = ? AND u.user_name = ?'
+    const [rows] = await pool.execute(query, values)
+    
+            if(rows.affectedRows === 0){
+            return {"status":404, "message":"No fue posible borrar link o no existe"}
+        }
+        return {"status":200, "message":"Link borrado con exito"}
+}
+catch(e){
+        console.error(e)
+        return {"status":500, "message":"Error interno del servidor"}
+}
 }
 
-
-
-export const model_profile_delete_pic = async() =>{
-
-    return
-}
 
 
 
